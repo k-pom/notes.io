@@ -1,20 +1,27 @@
 ## TODO
-- Cache the list of gists with a sane ttl
 
-- Cache the raw data forever. Purge if last modified > cache time
-
-- Truncate in a less dumb way
-
-- Comment integration
+### Misc
 
 - RSS Integration
 
 - Pagination
 
-- Forking (reblogging) and diffs
-
-- Org level blogs
-
-- Login to customize
-
 - Tagging (maybe with post titles?)
+
+- Show comments
+
+
+### Caching
+
+- Cache the list of gists with a sane ttl
+
+- Cache the markedup data forever. Purge if last modified > cache time
+
+
+### Requires login
+
+- Add comment
+
+- Customize L&F
+
+- Forking (reblogging)
