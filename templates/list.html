@@ -4,6 +4,7 @@
 
     {% for gist in gists
         if not gist['description'] == ""
+           and "files" in gist
            and gist['files'][gist['files'].keys()[0]]['language'] == "Markdown" %}
 
 
