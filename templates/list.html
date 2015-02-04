@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block panel %}
+
+    {% for gist in gists
+        if not gist['description'] == ""
+           and gist['files'][gist['files'].keys()[0]]['language'] == "Markdown" %}
+
+
+        <div class="blog-post">
+            <div class='container'>
+                <div class='col-lg-1'><img src="{{gist['owner']['avatar_url']}}" style='width:50px'/></div>
+                <div class='col-lg-11'>
+                    <h2 class="blog-post-title">{{gist['description']}}</h2>
+                    <p class="blog-post-meta">
+                        {{gist['created_at']|datetimeformat}} by
+                        <a href="#">{{username|capitalize}}</a>
+
+                        Comments ({{gist['comments']}})
+                    </p>
+                </div>
+            </div>
+            <div class='blog-data'>
+                <div class='condensed'>
+                    {{gist['files'][gist['files'].keys()[0]]['raw_url']|get_as_markdown|safe}}
+                </div>
+                <a style='float:right' href="{{username}}/{{gist['id']}}">Read the whole post</a>
+            </div>
+        </div>
+
+        <p></p>
+    {% endfor %}
+
+{% endblock %}

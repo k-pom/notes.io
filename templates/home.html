@@ -1,0 +1,38 @@
+<html><head>
+    <title>Notes.io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" media="screen" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script>
+        $().ready(function(){
+            $('.btn').click(function(){
+                document.location.href = "/"+$("[name=github-user]").val()
+            })
+        });
+    </script>
+  </head>
+  <body>
+
+    <div class='container'>
+        <div class="jumbotron">
+            <h1>Welcome to notes.io</h1>
+            <p class="lead">Enter a github username to view a person's markdown gists.</p>
+            <p>
+                <input name='github-user' class='large'/>
+                <a class="btn btn-lg btn-success" href="#" role="button">View Posts</a>
+            </p>
+        </div>
+
+
+
+    </div>
+    {% block scripts %}{% endblock %}
+
+    {% block styles %}{% endblock %}
+
+</body>
+</html>

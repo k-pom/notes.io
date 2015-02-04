@@ -1,0 +1,5 @@
+flask==0.10.1
+flask_bootstrap==3.2.0.2
+gunicorn==19.1.1
+requests==2.5.1
+markdown==2.5.2

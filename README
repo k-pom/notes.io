@@ -1,0 +1,8 @@
+## TODO
+- Cache the list of gists with a sane ttl
+
+- Cache the raw data forever. Purge if last modified > cache time
+
+- Truncate in a less dumb way
+
+- Comment integration

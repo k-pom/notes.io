@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block panel %}
+    <div class="blog-post">
+            <div class='container'>
+                <div class='col-lg-1'><img src="{{gist['owner']['avatar_url']}}" style='width:50px'/></div>
+                <div class='col-lg-11'>
+                    <h2 class="blog-post-title">{{gist['description']}}</h2>
+                    <p class="blog-post-meta">
+                        {{gist['created_at']|datetimeformat}} by
+                        <a href="#">{{username|capitalize}}</a>
+
+                        Comments ({{gist['comments']}})
+                    </p>
+                </div>
+            </div>
+            <div class='blog-data'>
+                {{gist['files'][gist['files'].keys()[0]]['raw_url']|get_as_markdown|safe}}
+                <a style='float:right' href="/{{username}}">Back to the list</a>
+            </div>
+        </div>
+
+        <p></p>
+
+
+{% endblock %}
