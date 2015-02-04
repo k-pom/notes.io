@@ -1,5 +1,5 @@
 import requests
-from flask import redirect, url_for, session, render_template
+from flask import render_template
 from notes import app
 import os
 
@@ -8,6 +8,7 @@ import os
 def home():
 
     return render_template("home.html", username="")
+
 
 @app.route("/<username>")
 def list(username):
@@ -19,6 +20,7 @@ def list(username):
     gists = requests.get(url, auth=(github_user, github_pass)).json()
 
     return render_template("list.html", username=username, gists=gists)
+
 
 @app.route("/<username>/<id>")
 def show(username, id):

@@ -1,6 +1,5 @@
 from flask import Flask
 from datetime import datetime
-from markdown import markdown
 import os
 import requests
 
@@ -9,13 +8,13 @@ app.secret_key = os.environ.get('SECRET_KEY')
 
 import notes.home
 
-
 @app.template_filter('datetimeformat')
-def datetimeformat(value, in_format="%Y-%m-%dT%H:%M:%SZ", out_format="%B %d, %Y"):
-    return (datetime.strptime(value, in_format)).strftime(out_format)
+def datetimeformat(value, format="%Y-%m-%dT%H:%M:%SZ", out="%B %d, %Y"):
+    return (datetime.strptime(value, format)).strftime(out)
+
 
 @app.template_filter('get_as_markdown')
-def datetimeformat(raw_url):
+def get_as_markdown(raw_url):
 
     markdown = requests.get(raw_url).text
 
