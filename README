@@ -2,13 +2,15 @@
 
 ### Misc
 
-- RSS Integration
+- ~~Pagination~~
 
-- Pagination
+- ~~Fix truncation~~
+
+- Show comments
 
 - Tagging (maybe with post titles?)
 
-- Show comments
+- RSS Integration
 
 
 ### Caching
@@ -18,7 +20,7 @@
 - Cache the markedup data forever. Purge if last modified > cache time
 
 
-### Requires login
+### Things that require login
 
 - Add comment
 

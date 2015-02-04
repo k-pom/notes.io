@@ -5,7 +5,7 @@ import os
 
 def get_gists_for_user(username, page=0):
 
-    items_per_page = 2
+    items_per_page = 10
     github_user = os.environ.get('GITHUB_USER')
     github_pass = os.environ.get('GITHUB_PASS')
     url = "https://api.github.com/users/%s/gists" % username
