@@ -1,18 +1,15 @@
 ## TODO
 
-### Misc
-- ~~Pagination~~
-- ~~Fix truncation~~
-- ~~Show comments~~
-- Tagging (maybe with post titles?)
-- RSS Integration
-- Multiple syntax types (Haml, Textile, plain text) 
+### Docs
+- Make this readme about usage rather than a todo list
 
-### Caching
-- Cache the list of gists with a sane ttl
-- Cache the markedup data forever. Purge if last modified > cache time
+### Misc
+- Tagging First line can be in the format [[tag:a]] [[tag:b]]
+- RSS Integration
+- Starred gists become header links
 
 ### Things that require login
 - Add comment
+- Create New gist
 - Customize L&F
 - Forking (reblogging)
