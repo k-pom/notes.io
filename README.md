@@ -3,7 +3,7 @@
 ### Misc
 - ~~Pagination~~
 - ~~Fix truncation~~
-- Show comments
+- ~~Show comments~~
 - Tagging (maybe with post titles?)
 - RSS Integration
 - Multiple syntax types (Haml, Textile, plain text) 
