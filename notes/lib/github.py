@@ -1,11 +1,15 @@
 import requests
 from flask import render_template
 from notes import app
+from notes.lib.cache import cached_http_get, cache_until_changed
 from datetime import datetime
+import json
 import os
 
 github_user = os.environ.get('GITHUB_USER')
 github_pass = os.environ.get('GITHUB_PASS')
+
+
 
 class Comment():
 
@@ -24,30 +28,34 @@ class Comment():
     def created_at(self):
         return datetime.strptime(self.comment['created_at'], "%Y-%m-%dT%H:%M:%SZ")
 
+
 class Gist():
 
     def __init__(self, gist):
         self.gist = gist
 
-    # TODO: Cache this
+    def auth(self):
+        return (github_user, github_pass)
+
     def parsed(self, limit=False):
 
-        if 'content' not in self.first_file:
+        def fetch():
+
             markdown = requests.get(self.first_file['raw_url']).text
-        else:
-            markdown = self.first_file['content']
 
-        if limit:
-            markdown = markdown[0:(limit+markdown[limit:].index('\n\n')+1)]
+            if limit:
+                markdown = markdown[0:(limit+markdown[limit:].index('\n\n')+1)]
 
-        html = requests.post(
-            "https://api.github.com/markdown/raw",
-            markdown,
-            headers={"Content-Type": "text/x-markdown"},
-            auth=(github_user, github_pass)
-        )
+            html = requests.post(
+                "https://api.github.com/markdown/raw",
+                markdown,
+                headers={"Content-Type": "text/x-markdown"},
+                auth=(github_user, github_pass)
+            )
+            return html.text
 
-        return html.text
+        key = "%s-%s" % (self.first_file['raw_url'], limit)
+        return cache_until_changed(key, self.gist['updated_at'], fetch)
 
     @property
     def number_comments(self):
@@ -55,9 +63,7 @@ class Gist():
 
     @property
     def comments(self):
-        # TODO: Cache
-        comments = requests.get(self.gist['comments_url'], auth=(github_user, github_pass)).json()
-        return [Comment(c) for c in comments]
+        return [Comment(c) for c in cached_http_get(self.gist['comments_url'], 300)]
 
     @property
     def owner(self):
@@ -88,48 +94,18 @@ class Gist():
             and self.first_file['language'] == "Markdown"
         )
 
-
 def get_gists(username):
-    """
-        Return all valid gists for a user
-    """
 
     url = "https://api.github.com/users/%s/gists" % username
-
-    all_gists = [Gist(g) for g in requests.get(url, auth=(github_user, github_pass)).json()]
-
+    all_gists = [Gist(g) for g in cached_http_get(url, 300)]
     return [g for g in all_gists if g.is_valid()]
 
 
 def get_gist(id):
-
     url = "https://api.github.com/gists/%s" % id
-    gist = Gist(requests.get(url, auth=(github_user, github_pass)).json())
+    gist = Gist(cached_http_get(url, 300))
 
     if gist.is_valid():
-
-
         return gist
 
-    print "WAS'T VALID"
     return None
-
-#
-# def get_parsed_gist(id):
-# gist['files'][gist['files'].keys()[0]]['raw_url']
-#     gist = get_gist(id)
-#     # Check
-#     markdown = requests.get(raw_url).text
-#
-#     if limit:
-#         markdown = markdown[0:(limit+markdown[limit:].index('\n\n')+1)]
-#
-#     github_user = os.environ.get('GITHUB_USER')
-#     github_pass = os.environ.get('GITHUB_PASS')
-#     html = requests.post(
-#         "https://api.github.com/markdown/raw",
-#         markdown,
-#         headers={"Content-Type": "text/x-markdown"},
-#         auth=(github_user, github_pass))
-#
-#     return html.text
